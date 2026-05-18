@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Invitation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Montserrat:wght@200;300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-cream: #fbf8f0;
+            --gold-primary: #bfa36a;
+            --gold-dark: #8c7343;
+            --text-dark: #333333;
+            --maroon-petal: rgba(141, 47, 68, 0.75);
+            --card-bg: #f5eedc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            background-color: var(--bg-cream);
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-dark);
+            overflow-x: hidden;
+            text-align: center;
+            min-height: 100vh;
+        }
+
+        /* --- LANDING / ENTRY SCREEN --- */
+        #entry-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-cream);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        #entry-screen.fade-out {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(1.05);
+        }
+
+        .entry-subtitle {
+            font-family: 'Cinzel', serif;
+            font-size: 11px;
+            letter-spacing: 5px;
+            color: var(--gold-primary);
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        /* Gold Monogram Seal Button */
+        .seal-button {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 1px solid var(--gold-primary);
+            background: transparent;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 0 15px rgba(191, 163, 106, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .seal-button:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 25px rgba(191, 163, 106, 0.3);
+        }
+
+        .seal-monogram {
+            font-family: 'Cinzel', serif;
+            font-size: 26px;
+            color: var(--gold-dark);
+            letter-spacing: 2px;
+            font-weight: 400;
+        }
+
+        .click-to-enter {
+            margin-top: 30px;
+            font-family: 'Cinzel', serif;
+            font-size: 10px;
+            letter-spacing: 4px;
+            color: var(--gold-primary);
+            text-transform: uppercase;
+        }
+
+        /* --- MAIN CONTENT CONTAINER --- */
+        #main-content {
+            opacity: 0;
+            padding: 40px 20px 60px 20px;
+            max-width: 500px;
+            margin: 0 auto;
+            transition: opacity 1.5s ease;
+            position: relative;
+        }
+
+        #main-content.fade-in {
+            opacity: 1;
+        }
+
+        /* --- FALLING PETALS CONTAINER --- */
+        #petal-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 99;
+            overflow: hidden;
+            display: none;
+        }
+
+        .petal {
+            position: absolute;
+            background-color: var(--maroon-petal);
+            border-radius: 150% 0 150% 40%;
+            opacity: 0.8;
+            transform-origin: center;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-50px) rotate(0deg) translateX(0);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translateY(50vh) rotate(180deg) translateX(50px);
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(105vh) rotate(360deg) translateX(-20px);
+                opacity: 0;
+            }
+        }
+
+        /* --- INVITATION TEXT TYPOGRAPHY --- */
+        .arabic-bismillah {
+            font-family: 'Cinzel', serif; 
+            font-size: 26px;
+            color: var(--gold-dark);
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .translation {
+            font-family: 'Cinzel', serif;
+            font-size: 9px;
+            letter-spacing: 3px;
+            color: var(--gold-primary);
+            text-transform: uppercase;
+            line-height: 1.8;
+            margin-bottom: 40px;
+        }
+
+        .honor-request {
+            font-family: 'Cinzel', serif;
+            font-size: 11px;
+            letter-spacing: 4px;
+            color: var(--gold-primary);
+            text-transform: uppercase;
+            line-height: 2;
+            margin-bottom: 25px;
+        }
+
+        .hosts {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            font-size: 15px;
+            color: #555555;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .names-container {
+            margin: 30px 0;
+        }
+
+        .bride-name, .groom-name {
+            font-family: 'Cinzel', serif;
+            font-size: 26px;
+            letter-spacing: 3px;
+            color: #222222;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .conjunction-with {
+            font-family: 'Pinyon Script', cursive;
+            font-size: 38px;
+            color: var(--gold-primary);
+            margin: 10px 0;
+        }
+
+        .parentage {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            letter-spacing: 1px;
+            color: #666666;
+            margin-top: 4px;
+            margin-bottom: 15px;
+            font-weight: 400;
+        }
+
+        .scroll-indicator {
+            font-family: 'Cinzel', serif;
+            font-size: 9px;
+            letter-spacing: 5px;
+            color: var(--gold-primary);
+            text-transform: uppercase;
+            margin: 30px 0;
+        }
+
+        .quran-verse {
+            font-family: 'Montserrat', sans-serif;
+            font-style: italic;
+            font-weight: 300;
+            font-size: 15px;
+            color: #444444;
+            line-height: 2;
+            margin: 45px 0;
+        }
+
+        .divider-line {
+            width: 1px;
+            height: 45px;
+            background-color: var(--gold-primary);
+            margin: 20px auto;
+            opacity: 0.6;
+        }
+
+        /* --- VENUE & DATE SECTION --- */
+        .section-tag {
+            font-family: 'Cinzel', serif;
+            font-size: 9px;
+            letter-spacing: 4px;
+            color: var(--gold-primary);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .venue-title {
+            font-family: 'Cinzel', serif;
+            font-size: 26px;
+            color: #222222;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        .event-date {
+            font-family: 'Cinzel', serif;
+            font-size: 20px;
+            color: var(--gold-dark);
+            letter-spacing: 2px;
+            margin: 5px 0;
+        }
+
+        .event-day {
+            font-family: 'Cinzel', serif;
+            font-size: 10px;
+            letter-spacing: 3px;
+            color: var(--gold-primary);
+            text-transform: uppercase;
+            margin-bottom: 40px;
+        }
+
+        /* --- SCHEDULE CARD --- */
+        .schedule-card {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px 25px;
+            margin-bottom: 45px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            border: 1px solid rgba(191, 163, 106, 0.15);
+        }
+
+        .card-title {
+            font-family: 'Cinzel', serif;
+            font-size: 10px;
+            letter-spacing: 4px;
+            color: var(--gold-dark);
+            text-transform: uppercase;
+            margin-bottom: 25px;
+        }
+
+        .schedule-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(191, 163, 106, 0.25);
+        }
+
+        .schedule-row:last-child {
+            border-bottom: none;
+        }
+
+        .event-label {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            color: #333333;
+        }
+
+        .event-time {
+            font-family: 'Cinzel', serif;
+            font-weight: 500;
+            font-size: 13px;
+            color: var(--gold-dark);
+            letter-spacing: 1px;
+        }
+
+        /* --- QR CODE SECTION --- */
+        .qr-container {
+            display: inline-block;
+            background: white;
+            padding: 12px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            margin-top: 15px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(191, 163, 106, 0.2);
+        }
+
+        .qr-container img {
+            width: 130px;
+            height: 130px;
+            display: block;
+        }
+
+        .qr-instructions {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            color: #666666;
+            margin-bottom: 15px;
+        }
+
+        .directions-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--gold-primary);
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-family: 'Cinzel', serif;
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: var(--gold-dark);
+            text-decoration: none;
+            text-transform: uppercase;
+            background: transparent;
+            margin-bottom: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .directions-btn:hover {
+            background-color: var(--gold-primary);
+            color: white;
+        }
+
+        /* --- COUNTDOWN TIMER --- */
+        .countdown-title {
+            font-family: 'Cinzel', serif;
+            font-size: 10px;
+            letter-spacing: 4px;
+            color: var(--gold-primary);
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .countdown-phrase {
+            font-family: 'Pinyon Script', cursive;
+            font-size: 32px;
+            color: var(--gold-dark);
+            margin-bottom: 20px;
+        }
+
+        .timer-grid {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            max-width: 320px;
+            margin: 0 auto;
+        }
+
+        .timer-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 50px;
+        }
+
+        .timer-number {
+            font-family: 'Cinzel', serif;
+            font-size: 34px;
+            font-weight: 400;
+            color: #222222;
+            line-height: 1;
+        }
+
+        .timer-label {
+            font-family: 'Cinzel', serif;
+            font-size: 8px;
+            letter-spacing: 2px;
+            color: var(--gold-primary);
+            text-transform: uppercase;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="entry-screen">
+        <div class="entry-subtitle">Wedding Invitation</div>
+        <button class="seal-button" onclick="enterInvitation()" aria-label="Open Invitation">
+            <div class="seal-monogram">I & F</div>
+        </button>
+        <div class="click-to-enter">Click to Enter</div>
+    </div>
+
+    <div id="petal-container"></div>
+
+    <div id="main-content">
+        
+        <div class="arabic-bismillah">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+        <div class="translation">In the name of Allah, the most<br>beneficent and the most merciful</div>
+
+        <div class="honor-request">The honor of your presence is requested</div>
+        <div class="hosts">
+            Mr. and Mrs. Sajjad cordially invite you<br>to the<br>wedding ceremony of their beloved daughter
+        </div>
+
+        <div class="names-container">
+            <div class="bride-name">Syeda Fatima Sughra</div>
+            <div class="conjunction-with">with</div>
+            <div class="groom-name">Syed Iftikhar Hussain</div>
+            <div class="parentage">S/o Syed Arshad Hussain</div>
+        </div>
+
+        <div class="scroll-indicator">Scroll</div>
+
+        <div class="quran-verse">"And We created you in pairs."</div>
+        <div class="divider-line"></div>
+        <div class="quran-verse">"And He put between you affection and mercy."</div>
+
+        <div class="section-tag">The Gathering</div>
+        <div class="venue-title">Himalaya Banquet</div>
+        <div class="event-date">30 August 2026</div>
+        <div class="event-day">Sunday Evening</div>
+
+        <div class="schedule-card">
+            <div class="card-title">Celebration Schedule</div>
+            
+            <div class="schedule-row">
+                <span class="event-label">Barat Arrival</span>
+                <span class="event-time">08:00 PM</span>
+            </div>
+            <div class="schedule-row">
+                <span class="event-label">Nikah Ceremony</span>
+                <span class="event-time">09:00 PM</span>
+            </div>
+            <div class="schedule-row">
+                <span class="event-label">Dinner</span>
+                <span class="event-time">10:15 PM</span>
+            </div>
+            <div class="schedule-row">
+                <span class="event-label">Rukhsati</span>
+                <span class="event-time">11:30 PM</span>
+            </div>
+        </div>
+
+        <div class="section-tag">Find the Venue</div>
+        <div class="venue-title" style="font-size: 18px; margin-bottom: 10px;">Himalaya Banquet</div>
+        
+        <div class="qr-container">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Himalaya+Banquet+Karachi" alt="Venue QR Code Location Map">
+        </div>
+        
+        <div class="qr-instructions">Scan or tap to open in Google Maps</div>
+        
+        <a href="https://maps.google.com" target="_blank" class="directions-btn">
+            <i class="fa-solid fa-location-dot"></i> Get Directions
+        </a>
+
+        <div class="countdown-title">The Countdown</div>
+        <div class="countdown-phrase">until we say "I do"</div>
+        
+        <div class="timer-grid">
+            <div class="timer-block">
+                <div id="days" class="timer-number">00</div>
+                <div class="timer-label">Days</div>
+            </div>
+            <div class="timer-block">
+                <div id="hours" class="timer-number">00</div>
+                <div class="timer-label">Hours</div>
+            </div>
+            <div class="timer-block">
+                <div id="minutes" class="timer-number">00</div>
+                <div class="timer-label">Mins</div>
+            </div>
+            <div class="timer-block">
+                <div id="seconds" class="timer-number">00</div>
+                <div class="timer-label">Secs</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Triggered upon clicking the Monogram Seal button
+        function enterInvitation() {
+            document.getElementById('entry-screen').classList.add('fade-out');
+            document.getElementById('main-content').classList.add('fade-in');
+            
+            // Starts the petal animation overlay explicitly upon presentation entry
+            const petalContainer = document.getElementById('petal-container');
+            petalContainer.style.display = 'block';
+            createPetals();
+        }
+
+        // Programmatic generation of shifting leaf/petal particles
+        function createPetals() {
+            const container = document.getElementById('petal-container');
+            const petalCount = 25; // Balanced density metric to prevent screen overcrowding
+
+            for (let i = 0; i < petalCount; i++) {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
+                
+                // Randomized layout distribution rules
+                petal.style.left = Math.random() * 100 + 'vw';
+                petal.style.width = Math.random() * 12 + 8 + 'px';
+                petal.style.height = Math.random() * 16 + 10 + 'px';
+                petal.style.animationDuration = Math.random() * 4 + 5 + 's'; 
+                petal.style.animationDelay = Math.random() * 5 + 's';
+                
+                container.appendChild(petal);
+            }
+        }
+
+        // Countdown Timer Engine targeting Sunday, August 30, 2026 at 20:00:00 PKT (Event Start Time)
+        const targetWeddingDate = new Date("August 30, 2026 20:00:00").getTime();
+
+        const runTimer = setInterval(function() {
+            const absoluteNow = new Date().getTime();
+            const timeDifference = targetWeddingDate - absoluteNow;
+
+            // Date math metrics parsing logic
+            const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+            // Print values to user UI structure nodes safely with structural pad formatting
+            document.getElementById("days").innerHTML = String(days).padStart(2, '0');
+            document.getElementById("hours").innerHTML = String(hours).padStart(2, '0');
+            document.getElementById("minutes").innerHTML = String(minutes).padStart(2, '0');
+            document.getElementById("seconds").innerHTML = String(seconds).padStart(2, '0');
+
+            // Fallback safety if timeline threshold completes beforehand
+            if (timeDifference < 0) {
+                clearInterval(runTimer);
+                document.getElementById("days").innerHTML = "00";
+                document.getElementById("hours").innerHTML = "00";
+                document.getElementById("minutes").innerHTML = "00";
+                document.getElementById("seconds").innerHTML = "00";
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
